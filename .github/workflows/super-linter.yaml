@@ -1,0 +1,23 @@
+name: Super-Linter
+on:
+  push:
+  pull_request:
+    branches-ignore: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          # Full git history is needed to get a proper list of changed files within `super-linter`
+          fetch-depth: 0
+      - name: Super-Linter
+        uses: github/super-linter@v3.15.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BRANCH: "main"
+          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_TERRAFORM: true
+          VALIDATE_YAML: true
