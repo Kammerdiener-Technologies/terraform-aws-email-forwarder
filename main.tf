@@ -149,7 +149,7 @@ resource "aws_lambda_function" "email-forwarding" {
   role          = aws_iam_role.email-forwarding.arn
   handler       = "index.handler"
 
-  source_code_hash = filebase64sha256("./code/forward-email.zip")
+  source_code_hash = filebase64sha256("${path.module}/code/forward-email.zip")
   filename = "./code/forward-email.zip"
 
   runtime = "nodejs12.x"
