@@ -142,8 +142,6 @@ resource "aws_cloudwatch_log_group" "email-forwarding-logs" {
   retention_in_days = 14
 }
 
-
-
 resource "aws_lambda_function" "email-forwarding" {
   function_name = "email-forwarding-${random_id.general_suffix.hex}"
   role          = aws_iam_role.email-forwarding.arn
@@ -164,6 +162,14 @@ resource "aws_lambda_function" "email-forwarding" {
       forwardMapping = var.forward_mapping
     }
   }
+}
+
+resource "aws_lambda_permission" "ses" {
+  statement_id   = "AllowExecutionFromSES"
+  action         = "lambda:InvokeFunction"
+  function_name  = aws_lambda_function.email-forwarding.function_name
+  principal      = "ses.amazonaws.com"
+  source_account = data.aws_caller_identity.current.account_id
 }
 
 resource "aws_ses_receipt_rule_set" "email-forwarding" {
