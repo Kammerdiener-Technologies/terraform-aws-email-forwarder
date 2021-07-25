@@ -150,7 +150,7 @@ resource "aws_lambda_function" "email-forwarding" {
   handler       = "index.handler"
 
   source_code_hash = filebase64sha256("${path.module}/code/forward-email.zip")
-  filename = "./code/forward-email.zip"
+  filename = "${path.module}/code/forward-email.zip"
 
   runtime = "nodejs12.x"
 
