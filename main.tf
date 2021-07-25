@@ -8,7 +8,7 @@ resource "aws_ses_domain_identity" "domain" {
 
 resource "aws_ses_domain_mail_from" "forward-email" {
   domain           = var.domain_name
-  mail_from_domain = "forward.${var.domain_name}"
+  mail_from_domain = "${var.domain_name}"
 }
 
 resource "aws_s3_bucket" "email_forwarding_bucket" {
