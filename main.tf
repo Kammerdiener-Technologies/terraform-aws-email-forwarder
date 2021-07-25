@@ -9,11 +9,6 @@ resource "aws_ses_domain_identity" "domain" {
   domain = var.domain_name
 }
 
-resource "aws_ses_domain_mail_from" "forward-email" {
-  domain           = var.domain_name
-  mail_from_domain = "${var.domain_name}"
-}
-
 resource "aws_s3_bucket" "email_forwarding_bucket" {
   bucket = var.bucket_name
   acl    = "private"
@@ -159,7 +154,7 @@ resource "aws_lambda_function" "email-forwarding" {
     variables = {
       emailBucket = aws_s3_bucket.email_forwarding_bucket.bucket
       emailKeyPrefix = ""
-      fromEmail = aws_ses_domain_mail_from.forward-email.mail_from_domain
+      fromEmail = "forward@${var.domain_name}"
       subjectPrefix = "FW: "
       allowPlusSign = false
       forwardMapping = var.forward_mapping
