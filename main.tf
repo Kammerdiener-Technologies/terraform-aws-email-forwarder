@@ -2,6 +2,9 @@ resource "random_id" "general_suffix" {
   byte_length = 4
 }
 
+data "aws_caller_identity" "current" {
+}
+
 resource "aws_ses_domain_identity" "domain" {
   domain = var.domain_name
 }
